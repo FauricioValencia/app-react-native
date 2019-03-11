@@ -5,7 +5,11 @@ import Carousel from "react-native-carousel";
 const { height, width } = Dimensions.get("window");
 export const Carrousel = () => {
   return (
-    <Carousel width={375}>
+    <Carousel 
+      width={375}
+      delay={3000} 
+      loop={true}
+    >
       <View style={styles.container}>
         <Image
           style={styles.image}
