@@ -4,6 +4,8 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { Input } from "react-native-elements";
 import { Button } from "react-native-elements";
 
+import { api, postApi } from '../../../service/';
+
 const { height, width } = Dimensions.get("window");
 
 //  IMPORT COMPONENTS
@@ -18,8 +20,19 @@ export default class Login extends Component {
   };
   componentDidMount() {
   }
+
+  _login = async () => {
+    const {user, password} = state;
+    const route = api.uri + api.users.login;
+    const body = {
+      user,
+      password
+    }
+    await postApi(route,body)
+  }
+
   render() {
-      const { user, password }= this.state;
+    const { user, password }= this.state;
     return (
       <View
         style={{

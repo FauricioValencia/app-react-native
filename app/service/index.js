@@ -4,7 +4,7 @@ export const api = {
         login: 'login/',
         byID: `user/${id_user}`,
         all: '',
-        save: 'user/',
+        register: 'user/',
     }
 }
 

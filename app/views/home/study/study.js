@@ -14,6 +14,8 @@ export default class Study extends Component {
         //     this.props.navigation.closeDrawer();
         //   }, 3000);
         // }
+  
+
   render() {
     return (
     <View style={{width, height, backgroundColor: 'white'}}>

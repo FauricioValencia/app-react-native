@@ -4,24 +4,42 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { Input } from "react-native-elements";
 import { Button } from "react-native-elements";
 
+import { api, postApi } from '../../../service/';
+
 const { height, width } = Dimensions.get("window");
 
 // //  IMPORT COMPONENTS
-// import LogoBlanco from "../../../components/UI/logoBlanco/logoBlanco";
-// import Carrousel from "../../../components/Carrousel/Carrousel";
+
 export default class Register extends Component {
     state={
-        nombres:'',
-        apellidos: '',
+        names:'',
+        last_name: '',
         email: '',
-        cedula: '',
-        telefono: '',
+        id: '',
+        telephone: '',
         password: '',
 
     }
   static navigationOptions = {
     title:"Registro"
   };
+
+
+  _register = async () => {
+    const { names, last_name, email, id, telephone, password } = state;
+    const route  = api.uri + api.users.register;
+    const body = {
+      names,
+      last_name,
+      email,
+      id,
+      telephone,
+      password
+    }
+    await postApi(route,body);
+  }
+
+
   render() {
       const { nombres, apellidos, email, cedula, telefono, password }= this.state;
     return (
