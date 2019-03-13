@@ -12,7 +12,7 @@ const { height, width } = Dimensions.get("window");
 import LogoBlanco from "../../../components/UI/logoBlanco/logoBlanco";
 export default class Login extends Component {
     state={
-        user:'',
+        email:'',
         password: ''
     }
   static navigationOptions = {
@@ -22,13 +22,17 @@ export default class Login extends Component {
   }
 
   _login = async () => {
-    const {user, password} = state;
+    console.log('entro ');
+    const {email, password} = this.state;
     const route = api.uri + api.users.login;
     const body = {
-      user,
+      email,
       password
     }
-    await postApi(route,body)
+    let resApi =await postApi(route,body)
+    if(resApi.ok===true){
+      this.props.navigation.navigate("main")
+    }
   }
 
   render() {
@@ -58,7 +62,7 @@ export default class Login extends Component {
             containerStyle={{ width: width * 0.8 }}
             value={user}
             leftIcon={<Icon name="user" size={24} color="black" />}
-            onChangeText={(user)=>this.setState({user})}
+            onChangeText={(email)=>this.setState({email})}
           />
           <Input
             placeholder="Password"
@@ -82,7 +86,8 @@ export default class Login extends Component {
           <Button
             title="Iniciar Sesión"
             containerStyle={{ width: width * 0.4 }}
-            onPress={() => this.props.navigation.navigate("main")}
+            onPress={this._login}
+            // onPress={() => this.props.navigation.navigate("main")}
           />
           <Button
             title="Registrarse"
