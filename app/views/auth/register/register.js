@@ -4,70 +4,82 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { Input } from "react-native-elements";
 import { Button } from "react-native-elements";
 
-import { api, postApi } from '../../../service/';
+import { api, postApi } from "../../../service/";
 
 const { height, width } = Dimensions.get("window");
 
 // //  IMPORT COMPONENTS
 
 export default class Register extends Component {
-    state={
-        names:'',
-        last_name: '',
-        email: '',
-        id: '',
-        telephone: '',
-        password: '',
-
-    }
+  state = {
+    name: "",
+    lastName: "",
+    email: "",
+    cedula: "",
+    telephone: "",
+    password: ""
+  };
   static navigationOptions = {
-    title:"Registro"
+    title: "Registro"
   };
 
-
   _register = async () => {
-    const { names, last_name, email, id, telephone, password } = state;
-    const route  = api.uri + api.users.register;
+    const { name, lastName, email, cedula, phone, password } = this.state;
+    const route = api.uri + api.users.register;
     const body = {
-      names,
-      last_name,
+      name,
+      lastName,
       email,
-      id,
-      telephone,
-      password
+      cedula,
+      phone,
+      password,
+      state:true
+    };
+    let resApi = await postApi(route, body);
+    console.log("respuesta al registro: ", resApi);
+    if (resApi.ok === true) {
+      alert("Registro correcto :D");
+      this.props.navigation.navigate("Login");
+    }else {
+      alert(`El registro no tuvo exito: ${resApi}`);
     }
-    await postApi(route,body);
-  }
-
+  };
 
   render() {
-      const { nombres, apellidos, email, cedula, telefono, password }= this.state;
+    const { name, lastName, email, cedula, phone, password } = this.state;
     return (
       <View
         style={{
           width,
           height,
-          backgroundColor: "yellow",
+          backgroundColor: "yellow"
         }}
       >
-        <View style={{height: height*0.1}}/>
-        <View style={{height: height*0.6, width, justifyContent: 'center', alignItems: 'center'}}>
+        <View style={{ height: height * 0.1 }} />
+        <View
+          style={{
+            height: height * 0.6,
+            width,
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
           <Input
             placeholder="Nombre"
             label="Nombre"
-            value={nombres}
+            value={name}
             leftIcon={<Icon name="user" size={24} color="black" />}
-            onChangeText={(nombres)=>this.setState({nombres})}
-            containerStyle={{width: width*0.8}}
+            onChangeText={name => this.setState({ name })}
+            containerStyle={{ width: width * 0.8 }}
           />
           <Input
             placeholder="Apellidos"
             label="Apellidos"
-            value={apellidos}
+            value={lastName}
             leftIcon={<Icon name="user" size={24} color="black" />}
             keyboardType="visible-password"
-            onChangeText={(apellidos)=>this.setState({apellidos})}
-            containerStyle={{width: width*0.8}}
+            onChangeText={lastName => this.setState({ lastName })}
+            containerStyle={{ width: width * 0.8 }}
           />
           <Input
             placeholder="Email"
@@ -75,8 +87,8 @@ export default class Register extends Component {
             leftIcon={<Icon name="envelope" size={24} color="black" />}
             keyboardType="visible-password"
             value={email}
-            onChangeText={(email)=>this.setState({email})}
-            containerStyle={{width: width*0.8}}
+            onChangeText={email => this.setState({ email: email.toLowerCase() })}
+            containerStyle={{ width: width * 0.8 }}
           />
           <Input
             placeholder="Cédula"
@@ -84,17 +96,17 @@ export default class Register extends Component {
             leftIcon={<Icon name="user" size={24} color="black" />}
             keyboardType="visible-password"
             value={cedula}
-            onChangeText={(cedula)=>this.setState({cedula})}
-            containerStyle={{width: width*0.8}}
+            onChangeText={cedula => this.setState({ cedula })}
+            containerStyle={{ width: width * 0.8 }}
           />
           <Input
             placeholder="Télefono"
             label="Télefono"
             leftIcon={<Icon name="phone" size={24} color="black" />}
             keyboardType="visible-password"
-            value={telefono}
-            onChangeText={(telefono)=>this.setState({telefono})}
-            containerStyle={{width: width*0.8}}
+            value={phone}
+            onChangeText={phone => this.setState({ phone })}
+            containerStyle={{ width: width * 0.8 }}
           />
           <Input
             placeholder="Contraseña"
@@ -102,19 +114,19 @@ export default class Register extends Component {
             leftIcon={<Icon name="lock" size={24} color="black" />}
             value={password}
             keyboardType="visible-password"
-            onChangeText={(password)=>this.setState({password})}
-            containerStyle={{width: width*0.8}}
+            onChangeText={password => this.setState({ password })}
+            containerStyle={{ width: width * 0.8 }}
           />
         </View>
         <View
           style={{
             width,
             justifyContent: "center",
-            height: height*0.2,
-            alignItems: 'center'
+            height: height * 0.2,
+            alignItems: "center"
           }}
         >
-          <Button title="Registrarse" containerStyle={{ width: width * 0.4 }} />
+          <Button onPress={this._register} title="Registrarse" containerStyle={{ width: width * 0.4 }} />
         </View>
       </View>
     );

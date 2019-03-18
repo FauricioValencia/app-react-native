@@ -32,6 +32,8 @@ export default class Login extends Component {
     let resApi =await postApi(route,body)
     if(resApi.ok===true){
       this.props.navigation.navigate("main")
+    }else{
+      alert(`El login no tuvo exito: ${resApi}`);
     }
   }
 
@@ -62,7 +64,7 @@ export default class Login extends Component {
             containerStyle={{ width: width * 0.8 }}
             value={user}
             leftIcon={<Icon name="user" size={24} color="black" />}
-            onChangeText={(email)=>this.setState({email})}
+            onChangeText={(email)=>this.setState({email: email.toLowerCase()})}
           />
           <Input
             placeholder="Password"
