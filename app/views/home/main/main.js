@@ -1,27 +1,34 @@
 import React, { Component } from "react";
-import { View, Dimensions, Text, Image } from "react-native";
+import { View, Dimensions, Text, Image, AsyncStorage } from "react-native";
 import { Button, Input } from "react-native-elements";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Icon from "react-native-vector-icons/FontAwesome";
-
+import { api, getApi } from "../../../service/";
 const { height, width } = Dimensions.get("window");
 
 //  IMPORT COMPONENTS
 export default class Main extends Component {
   state = {
-    user: ""
+    cedula: ""
   };
-  // componentDidMount(){
-  //   this.props.navigation.openDrawer();
-  //   setTimeout(() => {
-  //     this.props.navigation.closeDrawer();
-  //   }, 3000);
-  // }
+
+  _getUserByCedula = async () => {
+    const token = await AsyncStorage.getItem("token");
+    const { cedula } = this.state;
+    const route = `${api.uri}${api.users.byCedula}${cedula}`;
+    let resApi = await getApi(route, token);
+    console.log('respuesta al consultar la cedula :D',resApi);
+    if(resApi.ok){
+        this.props.navigation.navigate("ResultQuery");
+    }else{
+      alert(`error al consultar la cedula: ${resApi}`);
+    }
+  };
   render() {
-    const { user } = this.state;
+    const { cedula } = this.state;
     return (
       <KeyboardAwareScrollView innerRef={ref => (this.scroll = ref)}>
-        <View style={{ width, height, }}>
+        <View style={{ width, height }}>
           <Image
             style={{
               width,
@@ -29,14 +36,21 @@ export default class Main extends Component {
             }}
             source={require("../../../assets/main.jpg")}
           />
-          <View style={{ height: height * 0.3, justifyContent: "center", width, alignItems: 'center', }}>
+          <View
+            style={{
+              height: height * 0.3,
+              justifyContent: "center",
+              width,
+              alignItems: "center"
+            }}
+          >
             <Input
               placeholder="Ingrese la cédula"
               label="Ingrese la cédula"
               containerStyle={{ width: width * 0.8 }}
-              value={user}
+              value={cedula}
               leftIcon={<Icon name="user" size={24} color="black" />}
-              onChangeText={user => this.setState({ user })}
+              onChangeText={cedula => this.setState({ cedula })}
             />
           </View>
           <View
@@ -50,7 +64,7 @@ export default class Main extends Component {
             <Button
               title="Consultar"
               containerStyle={{ width: width * 0.4 }}
-              onPress={() => this.props.navigation.navigate("ResultQuery")}
+              onPress={this._getUserByCedula}
             />
           </View>
         </View>

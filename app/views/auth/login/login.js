@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Dimensions, Text } from "react-native";
+import { View, Dimensions, Text, AsyncStorage } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { Input } from "react-native-elements";
 import { Button } from "react-native-elements";
@@ -31,6 +31,7 @@ export default class Login extends Component {
     }
     let resApi =await postApi(route,body)
     if(resApi.ok===true){
+      AsyncStorage.setItem('token', resApi.token);
       this.props.navigation.navigate("main")
     }else{
       alert(`El login no tuvo exito: ${resApi}`);
