@@ -1,7 +1,7 @@
 import { createAppContainer, createStackNavigator, createSwitchNavigator} from 'react-navigation'; 
 //  IMPORT STACKS
-import Auth from './auth/index.routes';
-import Main from './home/index';
+import Auth from '../../rutes/auth/index.routes';
+import Main from '../../rutes/home/index';
 
 const App = createSwitchNavigator(
     {
@@ -10,4 +10,3 @@ const App = createSwitchNavigator(
     }
   );
   export default createAppContainer(App);
-  
