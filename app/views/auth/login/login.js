@@ -45,7 +45,7 @@ export default class Login extends Component {
         style={{
           width,
           height,
-          backgroundColor: "yellow",
+          backgroundColor: "#00bcd4",
           alignContent: "center"
         }}
       >
@@ -62,7 +62,7 @@ export default class Login extends Component {
           <Input
             placeholder="USERNAME"
             label="Username"
-            containerStyle={{ width: width * 0.8 }}
+            containerStyle={{ width: width * 0.8, backgroundColor:'white', borderRadius: 5 }}
             value={user}
             leftIcon={<Icon name="user" size={24} color="black" />}
             onChangeText={(email)=>this.setState({email: email.toLowerCase()})}
@@ -71,7 +71,7 @@ export default class Login extends Component {
             placeholder="Password"
             label="Password"
             value={password}
-            containerStyle={{ width: width * 0.8 }}
+            containerStyle={{ width: width * 0.8, backgroundColor:'white', borderRadius: 5 }}
             leftIcon={<Icon name="lock" size={24} color="black" />}
             keyboardType="visible-password"
             onChangeText={(password)=>this.setState({password})}
@@ -88,15 +88,28 @@ export default class Login extends Component {
         >
           <Button
             title="Iniciar Sesión"
-            containerStyle={{ width: width * 0.4 }}
+            containerStyle={{ width: width * 0.4, backgroundColor:'#738082', color:'white', fontWeight:300 }}
             onPress={this._login}
             // onPress={() => this.props.navigation.navigate("main")}
           />
-          <Button
+          {/* <Button
             title="Registrarse"
             containerStyle={{ width: width * 0.4 }}
             onPress={()=>this.props.navigation.push('Register')}
-            />
+            /> */}
+          <View
+            style={{ display:'flex', flexDirection:'row' }}
+          >
+            <Text style={{ backgroundColor:'white', fontWeight:300 }}>
+              {'No tienes cuenta?'} 
+            </Text>
+            <Text 
+              style={{ backgroundColor:'white', fontWeight:'bold' }}
+              onPress={()=>this.props.navigation.push('Register')}
+            >
+              {'Crea una Aqui'}
+            </Text>
+          </View>
         </View>
       </View>
     );
